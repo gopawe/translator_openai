@@ -12,7 +12,7 @@ There are two main translation functions to use.
 Key Entry Points:
 - **Translate** - same as the `translate` this method is used to translate a text from one language to another.
 - **Detect** - same as `detect` this method can be used to detect the language of a given text or string of characters.
-
+- **Detect and Translate** - same as `detectTranslate` this method can be used to detect a language of a given text or string of characters and then translate to another language.
 
 
 ## Installation
@@ -62,6 +62,22 @@ var translate = await client.translator.detect(text_to_detect) /// Detect a lang
     "original_text" : "Hello, how are you today",
     "detected_language" : "en_us",
     "from" : "english",
+    "to" : "korean"
+}
+
+```
+
+
+### Detecting and translate a text
+
+```dart 
+var translate = await client.translator.detectTranslate(text_to_detect, Tolanguage) /// Auto Detect a language and then translate to another language
+
+///RETURNS A MAP ON SUCCESS WITH THE DETECTED LANGUAGE LOCALE CODE like `en_us`
+{
+    "status" : "success",
+    "original_text" : "Hello, how are you today",
+    "translation" : "안녕, 오늘은 어때?",
     "to" : "korean"
 }
 
