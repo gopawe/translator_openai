@@ -1,10 +1,10 @@
 name: translator_openai
 description: "A Translation API service using openAI by Abel V. Massaley"
-version: 0.0.2
+version: 0.0.4
 homepage: "https://github.com/gopawe/translator_openai.git"
 
 environment:
-  sdk: '>=3.2.1 <4.0.0'
+  sdk: '>=3.1.5 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

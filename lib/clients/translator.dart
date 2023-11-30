@@ -77,4 +77,44 @@ class TranslatorClient{
       }
   }
 
+
+  ///METHOD FOR DETECTING AND TRANSLATING A MESSAGE
+  Future<dynamic> detectTranslate(String text, toLang)async{
+    final client = OpenAIClient(
+      apiKey: mainClient.openAIApikey,
+      organization: mainClient.openAIOrgID,
+    );
+
+
+
+
+    if(kAvailableLanguages.contains(toLang) == false){
+      return {"status" : "error", "message" : "The to-language '$toLang' is not yet supported"};
+    }else{
+      ///CHECK IF THE MODEL EXISTS
+      if(kAllowedModels.contains(mainClient.model)){
+        final res = await client.createChatCompletion(
+          request: CreateChatCompletionRequest(
+            model: ChatCompletionModel.modelId(mainClient.model),
+            maxTokens: 5,
+            messages: [
+              const ChatCompletionMessage.system(
+                content: "You are a helpful translator that translate a string or text to another language. ",
+              ),
+              ChatCompletionMessage.user(
+                content: ChatCompletionUserMessageContent.string("translate '$text' to '$toLang'"),
+              ),
+            ],
+            temperature: 0,
+          ),
+        );
+
+        return {"status" : "success", "translation" : res.choices.first.message.content, "original_text" : text, "to" : toLang};
+      }else{
+        return {"status" : "error", "message" : "Invalid or unsupported openAI model"};
+      }
+    }
+
+  }
+
 }
