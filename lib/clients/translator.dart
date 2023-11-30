@@ -27,16 +27,23 @@ class TranslatorClient{
     }else{
       ///CHECK IF THE MODEL EXISTS
       if(kAllowedModels.contains(mainClient.model)){
-        final res = await client.createCompletion(
-          request: CreateCompletionRequest(
-            model: CompletionModel.modelId(mainClient.model),
-            prompt: CompletionPrompt.string("translate '$text' from $fromLanguage to $toLanguage "),
+        final res = await client.createChatCompletion(
+          request: CreateChatCompletionRequest(
+            model: ChatCompletionModel.modelId(mainClient.model),
             maxTokens: 2000,
             temperature: 0,
-            topP: 1
+            topP: 1,
+            messages: [
+              const ChatCompletionMessage.system(
+                content: "You are a helpful translator that detect a text and return only the locale code of the language the text was written in. Example format ' en_us ' ",
+              ),
+              ChatCompletionMessage.user(
+                content: ChatCompletionUserMessageContent.string("translate '$text' from $fromLanguage to $toLanguage "),
+              ),
+            ],
           ),
         );
-        return {"status" : "success", "translation" : res.choices.first.text, "original_text" : text, "from" : fromLanguage, "to" : toLanguage};
+        return {"status" : "success", "translation" : res.choices.first.message.content, "original_text" : text, "from" : fromLanguage, "to" : toLanguage};
       }else{
         return {"status" : "error", "message" : "Invalid or unsupported openAI model"};
       }
