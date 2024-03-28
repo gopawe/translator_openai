@@ -1,6 +1,6 @@
 name: translator_openai
 description: "A Translation API service using openAI by Abel V. Massaley"
-version: 0.0.6
+version: 0.0.7
 homepage: "https://github.com/gopawe/translator_openai.git"
 
 environment:
